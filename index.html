@@ -2,125 +2,81 @@
 <html lang="pt-BR">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Plano de Aulas</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f8fafc;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
-        .container {
-            max-width: 900px;
-            width: 100%;
-        }
+  <title>FIPC - Plano de Aulas (Confeiteiro)</title>
 
-        .card {
-            background: #fff;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+  <!-- Seu CSS -->
+  <link rel="stylesheet" href="styles.css" />
 
-        label {
-            font-weight: bold;
-            margin-bottom: 6px;
-            display: block;
-            font-size: 1rem;
-        }
+  <!-- SheetJS para leitura de Excel no cliente -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
-        input,
-        select,
-        button {
-            width: 100%;
-            padding: 12px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
-
-        button {
-            background: #007bff;
-            color: #fff;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        button:hover {
-            background: #0056b3;
-        }
-
-        .grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        /* Layout em telas maiores */
-        @media (min-width: 768px) {
-            .grid-3 {
-                grid-template-columns: repeat(3, 1fr);
-            }
-
-            .grid-2 {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-    </style>
+  <!-- Script principal -->
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-    <div class="container">
-        <img src="logo.png" alt="Logo" style="max-width:200px; margin: 0 auto 20px; display:block;" />
+  <div class="container">
 
-        <div class="card">
-            <!-- Upload -->
-            <div>
-                <label for="file">Carregar planilha (.xlsx/.xls)</label>
-                <input type="file" id="file" />
-            </div>
+    <div class="logo">
+      <img src="filtro.jng2.png" width="300" height="300">
 
-            <!-- Filtros -->
-            <div class="grid grid-3">
-                <div>
-                    <label for="produto">Tipo de Produto</label>
-                    <select id="produto">
-                        <option>Todos</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="aula-inicial">Aula Inicial</label>
-                    <select id="aula-inicial">
-                        <option>Todos</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="aula-final">Aula Final</label>
-                    <select id="aula-final">
-                        <option>Todos</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Busca + Filtrar -->
-            <div class="grid grid-2">
-                <input type="text" placeholder="Buscar insumo ou receita..." />
-                <button>Filtrar</button>
-            </div>
-
-            <!-- Gerar resumo -->
-            <button style="width:100%; font-size:1.1rem; padding:14px;">Gerar Resumo Consolidado</button>
-        </div>
     </div>
+
+    <div class="filtros">
+      <div class="row">
+        <label for="tipo">Tipo:</label>
+        <select id="tipo">
+          <option value="todos">Todos</option>
+          <option value="mercearia">Mercearia</option>
+          <option value="hortifruti">Hortifruti</option>
+          <option value="frios">Frios</option>
+          <option value="proteina">Proteína</option>
+        </select>
+      </div>
+      <div style="margin: 10px 0;">
+        <button id="btnSalvarCurso">Salvar Curso</button>
+        <select id="cursosSalvos">
+          <option value="">-- Selecione um curso salvo --</option>
+        </select>
+        <button id="btnExcluirCurso">Excluir Curso</button>
+      </div>
+
+      <div class="row">
+        <label for="dataInicio">Data início:</label>
+        <input type="date" id="dataInicio" />
+
+        <label for="dataFim">Data fim:</label>
+        <input type="date" id="dataFim" />
+      </div>
+
+      <div class="row">
+        <input type="text" id="searchInput" placeholder="Buscar receita ou insumo..." />
+      </div>
+
+      <div class="row">
+        <input type="file" id="excelInput" accept=".xlsx,.xls" />
+      </div>
+
+      <div class="row">
+        <button id="filtrarBtn">Filtrar</button>
+        <button id="gerarResumoBtn">Gerar Resumo</button>
+        <button id="exportCsvBtn" style="display:none;">Exportar CSV</button>
+      </div>
+    </div>
+
+    <div id="blocosAulas" class="blocosAulas"></div>
+
+    <!-- Cards por aula aparecem aqui -->
+  </div>
+
+
+  <footer style="text-align:center; margin-top:18px; color:#666; font-size:13px;">
+
+  </footer>
+  </div>
 </body>
 
 </html>
